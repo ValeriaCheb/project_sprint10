@@ -9,11 +9,5 @@ user_body = {
 }
 
 kit_body = {
-    "card": {
-        "id": 1,
-        "name": "Под ситуацию"
-    },
-    "productsList": '',
-    "id": 7,
-    "productsCount": 0
+    "name": ''
 }

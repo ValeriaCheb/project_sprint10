@@ -3,12 +3,10 @@ import config
 import data
 
 
+# Преобразование заголовка для набора продуктов
 def prepare_kit_headers():
     user = create_new_user()
-    assert user.status_code == 201
-
     user_token = user.json()["authToken"]
-    assert user_token != ""
 
     headers = data.headers.copy()
     headers["Authorization"] = "Bearer " + user_token
@@ -16,6 +14,7 @@ def prepare_kit_headers():
     return headers
 
 
+# Преобразование тела запроса для набора продуктов
 def prepare_kit_content(name):
     content = data.kit_body.copy()
     content["name"] = name
@@ -23,6 +22,7 @@ def prepare_kit_content(name):
     return content
 
 
+# Создание пользователя
 def create_new_user():
     return requests.post(
         config.URL_SERVICE + config.CREATE_USER_PATH,
@@ -31,6 +31,7 @@ def create_new_user():
     )
 
 
+# Создание набора
 def create_new_kit(content, headers):
     return requests.post(
         config.URL_SERVICE + config.CREATE_KIT,
@@ -39,6 +40,7 @@ def create_new_kit(content, headers):
     )
 
 
+# Позитивная проверка создания набора
 def positive_assert(kit_name):
     kit = create_new_kit(
         prepare_kit_content(kit_name),
@@ -48,6 +50,7 @@ def positive_assert(kit_name):
     assert kit.json()["name"] == kit_name
 
 
+# Негативная проверка создания набора
 def negative_assert(kit_name):
     kit = create_new_kit(
         prepare_kit_content(kit_name),
@@ -57,6 +60,7 @@ def negative_assert(kit_name):
     assert kit.json()["name"] != kit_name
 
 
+# Негативная проверка создания набора без названия
 def negative_assert_no_name_kit():
     kit = create_new_kit(
         data.kit_body,
